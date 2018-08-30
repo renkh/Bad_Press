@@ -1,13 +1,20 @@
 from django.conf.urls import url, include
-from . import views
+from django.urls import path
+from . import views as badpress
+from django.conf.urls import handler404, handler500
 
 urlpatterns = [
-    url(r'^$', views.index, name="index"),
-    url(r'stateresults', views.stateresults, name="stateresults"),
-    url(r'candidate', views.candidate, name="candidate"),
-    url(r'article', views.article, name="article"),
-    url(r'issue',views.issue, name="issue"),
-    url(r'about', views.about, name="about"),
+
+    url(r'^$', badpress.index, name="index"),
+    url(r'^stateresults/(?P<slug>[-\w]+)/$', badpress.state, name="state"),
+    url(r'^candidate/(?P<last_name>\w+)/$', badpress.candidate, name="candidate"),
+    url(r'^article/(?P<id>\d+)/$', badpress.article, name="article"),
+    url(r'^issue/(?P<id>(\d))/(?P<last_name>(\w+))/$',badpress.issue, name="issue"),
+    url(r'about', badpress.about, name="about"),
+    url(r'state-not-found', badpress.not_found_state, name="not_found_state"),
+    url(r'tutorial', badpress.tutorial, name="tutorial")
 ]
 
-#url('/statetemplate', ListView.as_view(queryset=state.objects.all(), template_name="state/state.html")),
+handler404 = badpress.error_404
+handler500 = badpress.error_500
+

@@ -1,0 +1,69 @@
+{% extends "badpress/header.html" %}
+
+{% block content %}
+
+
+<div class="container"  style="min-height: 100%;float: none; margin: 0 auto; padding-top: 60px">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-9">
+                
+				<h1>State: {{ state }} </h1>
+				<br>
+				<div class="bottom-left">
+					{% if candidates %}
+						<p><strong>  Number of candidates: {{ candidates|length }}</strong>  </p>
+						{% if state %}
+								<p><strong>  Primary Election Day: {{ state.primaries_date }} </strong> </p>
+						{% endif %}
+					{% endif %}
+					<!--<p><strong>  Number of candidates: {{ number_candidates }}</strong>  </p>
+					<p><strong>  Primary Election Day: {{ date }} </strong> </p>-->
+				</div>
+			</div>
+			<div class="col-md-3">
+				{% if state %}
+						<img src={{state.URL_logo}} class="img-fluid z-depth-1" alt="Responsive image">
+				{% endif %}
+			</div>
+		</div>
+	</div>
+<br>
+<br>
+<div class="row">
+	{% if candidates %}
+		{% for candidate in candidates %}
+				<div class="col-6">
+					<div class="card">
+						{% if candidate.party == "r" %}
+						<h3 class="card-header danger-color white-text">Republican</h3>
+						{% endif %}
+						{% if candidate.party == "d" %}
+						<h3 class="card-header primary-color white-text">Democrat</h3>
+						{% endif %}
+						{% if candidate.party == "i" %}
+						<h3 class="card-header warning-color white-text">Independent</h3>
+						{% endif %}
+						{% if candidate.party == "o" %}
+						 <h3 class="card-header warning-color white-text">Other</h3>
+					    {% endif %}
+						<div class="card-body">
+							<div class="row">
+								<div class="col-9">
+									<h4 class="card-title">{{ candidate.first_name }} {{ candidate.last_name }}</h4>
+									<p class="card-text">{{candidate.position}}</p>
+									<a class="btn btn-outline-primary" href="{% url 'candidate' last_name=candidate.last_name %}">View Profile</a>
+								</div>
+								<div class="col-3">
+									<img src={{candidate.URL_photo}} align="right" title=" Candidate Picture" height="140" width="120" style="margin-bottom: 1px; margin-top: 1px; ">
+								</div>
+							</div>
+						</div>
+					</div>
+					<br>
+					<br>
+				</div>
+		{% endfor %}
+	{% endif %}
+</div>
+{% endblock %}

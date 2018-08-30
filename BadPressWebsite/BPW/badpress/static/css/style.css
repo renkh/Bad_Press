@@ -1,0 +1,295 @@
+/* Your custom styles */
+
+/*Change default highlight on text selection, add [tag] in front to specify, add no-copy class to toggle off selection*/
+::selection {
+  background: darkorchid;
+  color: white;
+}
+
+.no-copy {
+  -webkit-user-select: none;  /* Chrome all / Safari all */
+  -moz-user-select: none;     /* Firefox all */
+  -ms-user-select: none;      /* IE 10+ */
+  user-select: none;          /* Likely future */     
+}
+
+/*padding for nav bar, misc text formating*/
+body { 
+    padding-top: 75px;
+}
+
+p {
+  margin: 0px;
+  padding: 0px;
+  font-size: 20px;
+}
+
+/*background image, stretches to screen, blurs*/
+#background {
+    width: 100%; 
+    height: 100%; 
+    position: fixed; 
+    left: 0px; 
+    top: 0px; 
+    z-index: -1; /* Ensure div tag stays behind content.*/
+}
+
+.stretch {
+    width:100%;
+    height:100%;
+}
+
+.blur {
+    filter:blur(10px);
+}
+
+/*nails nav bar to top*/
+#info {
+  position:absolute;
+  top: 5vh;
+  left: 5vh;
+}
+
+/*nails elements*/
+#keepFormat {
+position:absolute;
+right:0;
+top:0;
+}
+
+
+/*container styles*/
+.jumbotron{
+color: black;
+background-color: #efeff5;
+}
+
+.jumbotron.narrow{
+  padding: 2vh;
+}
+
+svg {
+  background: none;
+}
+
+.wordcloud {
+  background: white;
+}
+
+.topBox {
+  padding: 1vh;
+   background: grey;
+    color: white;
+     font-family: trebuchet ms;
+      text-align: center;
+  box-shadow: .03vh;
+  -moz-box-shadow: 0 0 5px #999;
+  -webkit-box-shadow: 0 0 5px #999;
+}
+
+.noteFade {
+  padding:20px;
+  z-index: 999;
+  border-left: 5px solid blue;
+  position: absolute;
+  height: 15vh;
+  width: 25vw;
+  background: white;
+  color: black;
+  font-size: 20px;
+  box-shadow: 8px;
+  -moz-box-shadow: 0 0 30px 5px #999;
+  -webkit-box-shadow: 0 0 30px 5px #999;
+
+}
+
+/*US map */
+.states {
+	fill: darkorchid;
+	stroke: #fff;
+	stroke-width:2px;
+}
+.states:hover {
+	fill-opacity: .7;
+}
+
+/*search bar*/
+input[type=text] {
+    width: 100%;
+    border: 2px solid grey;
+    font-size: 16px;
+    background-color: white;
+    background-image: url("search-icon.png");
+    background-position: left; 
+    background-repeat: no-repeat;
+    padding: 12px 20px 12px 40px;
+}
+
+/*tooltip*/
+div.tooltip {   
+  position: absolute;           
+  text-align: center;           
+  width: 100px;                  
+  height: 28px;                 
+  padding: 5px;             
+  font-size: 12px;        
+  background: gold;   
+  border-radius: 8px;           
+  pointer-events: none;         
+}
+
+/*bar graph stylings*/
+#bars {
+  background-color: white;
+}
+
+.innerBar{
+  height: 24px;
+  width: 0%;
+}
+
+.innerBar:hover {
+    opacity: .7;
+  }
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: white;
+  shape-rendering: crispEdges;
+}
+
+/*redeclare font tags*/
+strong {
+  font-weight: bold;
+}
+
+em {
+  font-weight: italic;
+}
+
+/*Test styles; center container that stretches to bottom, underline styles*/
+#containCenter {
+    width: 70vw;
+    margin-right: auto;
+    margin-left: auto;
+    padding-left: 5vw;
+    padding-right: 5vw;
+    height: 120vh;
+    background: none;
+}
+
+.underline {
+  background-image: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
+  background-repeat: no-repeat;
+  background-size: 100% 0.3em;
+  background-position: 0 80%;
+  transition: background-size 0.25s ease-in;
+  &:hover {
+    background-size: 100% 100%;
+  }
+}
+
+#animatedU {
+  text-decoration: none;
+  position: relative;
+  font-size: 20px;
+}
+
+#animatedU:after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0%;
+  border-bottom: 2px solid #f46016;
+  transition: 0.4s;
+}
+
+#animatedU:hover:after {
+  width:100%;
+}
+
+/*on load css, fade in effects*/
+.fade-in {
+    opacity:0;  /* make things invisible upon start */
+    -webkit-animation:fadeIn ease-in 1;  /* call our keyframe named fadeIn, use animattion ease-in and repeat it only 1 time */
+    -moz-animation:fadeIn ease-in 1;
+    animation:fadeIn ease-in 1;
+
+    -webkit-animation-fill-mode:forwards;  /* this makes sure that after animation is done we remain at the last keyframe value (opacity: 1)*/
+    -moz-animation-fill-mode:forwards;
+    animation-fill-mode:forwards;
+
+    -webkit-animation-duration:0.5s;
+    -moz-animation-duration:0.5s;
+    animation-duration:0.5s;
+}
+
+.fade-in.point4 {
+-webkit-animation-delay: 0.4s;
+-moz-animation-delay: 0.4s;
+animation-delay: 0.4;
+}
+
+.fade-in.point8 {
+-webkit-animation-delay: 0.6s;
+-moz-animation-delay: 0.6s;
+animation-delay: 0.6;
+}
+
+.fade-in.onepoint2 {
+-webkit-animation-delay: 1.2s;
+-moz-animation-delay: 1.2s;
+animation-delay: 1.2;
+}
+
+/*Newsfeed Styles*/
+.panel
+{
+    padding:0px;
+    margin:0px;
+    border-radius: 20px;
+    list-style:none; 
+    color: black;
+}
+
+.news-item
+{
+    padding:4px 4px;
+    margin:0px;
+    border-bottom:1px dotted #555; 
+}
+
+.news-item:hover {
+    border-left: 5px solid red;
+}
+
+/*Filter Search styles*/
+
+#myUL {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  opacity: .7;
+  position: absolute;
+  width: 95%;
+
+}
+
+#myUL li a {
+  border: 1px solid #ddd;
+  margin-top: -1px; /* Prevent double borders */
+  background-color: #f6f6f6;
+  padding: 12px;
+  text-decoration: none;
+  font-size: 18px;
+  color: black;
+  display: block;
+  width: 100%;
+}
+
+#myUL li a:hover:not(.header) {
+  background-color: #eee;
+}
+

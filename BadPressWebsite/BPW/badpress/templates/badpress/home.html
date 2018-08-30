@@ -1,54 +1,145 @@
 {% extends "badpress/header.html" %}
+{% load static %}
+{% block content%}
 
-{% block content %}
+<body style="padding-top: 0px; ">
 
-
-
-     
-<div class="container-fluid">
-<div class="row">
-  <div class="span6" style="float: none; margin: 0 auto; padding-top: 60px">
-  <p> Our Website Our Mission </p>
-  </div>
+<div id="containCenter" style="min-height: 100%;float: none; margin: 0 auto; padding-top: 70px;"> 
+	 <!-- <div id="background" style="background-repeat: no-repeat;"><img src="{% static 'img/test.png' %}"></div>-->
+<!--Carousel Wrapper-->
+<div id="carousel-thumb" class="carousel slide carousel-fade carousel-thumbnails" data-ride="carousel";>
+    <!--Slides-->
+    <div class="carousel-inner no-copy" role="listbox">
+        <div class="carousel-item active">
+          <h2 style="text-align: center; text-shadow: 1px 1px 1px #000000;"> Discover the politicians who champion your cause.</h2>
+          <p class="fade-in point4" style="text-align: center;">Start by selecting a state holding a senate election.</p>
+        </div>
+        <div class="carousel-item">
+        <h2 style="text-align:center; text-shadow: 1px 1px 1px #000000;">"The Ballot is Stronger than the Bullet. "</h2>
+        <p style="text-align: center; padding-left: 100px;">-ABRAHAM LINCOLN, speech, May 19, 1856</p>
+        </dir>
+        </div>
+    </div>
+    <!--/.Slides-->
+    </ol>
 </div>
-	 <div class="row">
-	  <div class="span6" style="float: none; margin: 0 auto; padding-top: 60px">
-	  <form class="form-inline">
-	    <input class="form-control mr-sm-2" type="search" placeholder="Type Politician's Name" aria-label="Search">
-	    <button class="btn btn-warning my-2 my-sm-0" type="submit">Search</button>
-	  </form>
-	  </div>
-</div>
+<!--/.Carousel Wrapper-->
 
-<div class="row">
-	<div class="span6" style="float: none; margin: 0 auto; padding-top: 60px">
-					<h2>Election Map</h2>
-		<svg width="960" height="600"></svg>
-		<script src="https://d3js.org/d3.v4.min.js"></script>
-		<script src="https://d3js.org/topojson.v2.min.js"></script>
-		<script>
-		
-		var svg = d3.select("svg");
-		var path = d3.geoPath();
-		
-		d3.json("https://d3js.org/us-10m.v1.json", function(error, us) {
-		if (error) throw error;
-		
-		svg.append("a")
-		.attr("xlink:href", "stateresults")
-		.append("g")
-		.attr("class", "states")
-		.selectAll("path")
-		.data(topojson.feature(us, us.objects.states).features)
-		.enter().append("path")
-		.attr("d", path);
-		svg.append("path")
-		.attr("class", "state-borders")
-		.attr("d", path(topojson.mesh(us, us.objects.states, function(a, b) { return a !== b; })));
-		});		
-		
-		</script>
+<script> $('.carousel').carousel({interval: 7000, wrap: false}); </script>
+
+	<script src="http://d3js.org/d3.v3.min.js"></script>
+	<script src="http://d3js.org/topojson.v1.min.js"></script>
+
+	<div class="row" >
+		<div class="span6" style="float: none; margin: 20px auto;">
+
+	<section id="map">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8 mx-auto">
+
+<input type="text" id="myInput" onkeyup="filterSearch()" placeholder="Search for names.." title="Type in a name">
+
+<ul id="myUL" style="position: absolute; list-style: none; z-index: 1;">
+{% for candidate in candidate_list %}
+  <li><a href="{% url 'candidate' last_name=candidate.last_name %}"> {{ candidate.name }}</a></li>
+ {% endfor %}
+</ul>
+<script>
+
+    var input, filter, ul, li, a;
+    input = document.getElementById("myInput");
+    filter = input.value.toUpperCase();
+    ul = document.getElementById("myUL");
+    li = ul.getElementsByTagName("li");
+    for (i = 0; i < li.length; i++) {
+            li[i].style.display = "none";
+}
+
+function filterSearch() {
+    var input, filter, ul, li, a, limit;
+    input = document.getElementById("myInput");
+    filter = input.value.toUpperCase();
+    ul = document.getElementById("myUL");
+    li = ul.getElementsByTagName("li");
+    limit = 0;
+    for (i = 0; i < li.length && limit < 3; i++) {
+        a = li[i].getElementsByTagName("a")[0];
+        if (filter == '') { li[i].style.display ="none";}
+        else if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+            li[i].style.display = "";
+            limit++;
+        } else {
+            li[i].style.display = "none";
+
+        }
+    }
+}
+</script>
+
+
+				</div>
+			</div>
+		</div>
+
+
+
+		<div id="usMap" class="fade-in point8" ></div>
+
+		<script type="text/javascript">
+		var width = 950,
+		height = 550;
+
+		var svg = d3.select('#usMap').append('svg')
+		.attr('width', width)
+		.attr('height', height);
+
+		var projection = d3.geo.albersUsa()
+		.scale(1000)
+		.translate([width / 2, height / 2]);
+
+		var div = d3.select("body")
+					.append("div")
+					.attr("class", "tooltip")
+					.style("opacity", 0);
+
+		var path = d3.geo.path()
+		.projection(projection);
+
+		d3.json('https://raw.githubusercontent.com/mslovett21/Bad_Press/master/BadPressWebsite/BPW/badpress/templates/badpress/us.json', function(error, us) {
+		svg.selectAll('.states')
+		.data(topojson.feature(us, us.objects.usStates).features)
+		.enter()
+		.append("a")
+    .attr("xlink:href", function(d) {return "stateresults/" + d.properties.STATE_ABBR })
+		.append('path')
+		.attr('class', 'states')
+		.attr('d', path)
+		.style("fill", function(d) {
+		return d.properties.COLOR
+		})
+		.on("mouseover", function(d) {
+    	div.transition()
+      	   .duration(200)
+           .style("opacity", .8);
+        div.text(d.properties.STATE_ABBR)
+           .style("left", (d3.event.pageX - 50) + "px")
+           .style("top", (d3.event.pageY - 50) + "px");
+		})
+		.on("mouseout", function(d) {
+			div.transition()
+			.duration(700)
+			.style("opacity", 0);
+		});
+	});
+	</script>
 </div>
+</section>
+</div>
+</div>
+</div>
+</div>
+</body>
 
 
 {% endblock %}
